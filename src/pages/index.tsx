@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
 import DefaultLayout from '../layouts/default';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import useContentful from '../hooks/contentful';
 
 // styles
 const headingStyles = {
@@ -32,7 +35,7 @@ const listItemStyles = {
 };
 
 const linkStyle = {
-  color: '#8954A8',
+  // color: '#8954A8',
   fontWeight: 'bold',
   fontSize: 16,
   verticalAlign: '5%',
@@ -122,10 +125,33 @@ const links = [
   },
 ];
 
-// markup
 const IndexPage = () => {
+  const linkData = useStaticQuery(graphql`
+    query Links {
+      allContentfulEntry {
+        edges {
+          node {
+            id
+            node_locale
+            ... on ContentfulLink {
+              id
+              text
+              url
+              description {
+                raw
+              }
+              color
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  const { displayRichText } = useContentful();
+
   return (
-    <DefaultLayout>
+    <DefaultLayout title={'Home Page'}>
       <h1 style={headingStyles}>
         Congratulations
         <br />
@@ -150,27 +176,34 @@ const IndexPage = () => {
             {docLink.text}
           </a>
         </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
+        {linkData.allContentfulEntry.edges &&
+          linkData.allContentfulEntry.edges.map(link => {
+            return (
+              <li
+                key={link.node.id}
+                style={{ ...listItemStyles, color: link.node.color }}
               >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
+                <span>
+                  <a
+                    style={linkStyle}
+                    href={`${link.node.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
+                  >
+                    {link.node.text}
+                  </a>
+                  {link.node.badge && (
+                    <span style={badgeStyle} aria-label="New Badge">
+                      NEW!
+                    </span>
+                  )}
+                  <div style={descriptionStyle}>
+                    {displayRichText(link.node.description.raw)}
+                  </div>
                 </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
+              </li>
+            );
+          })}
       </ul>
     </DefaultLayout>
   );
 };
-
 export default IndexPage;

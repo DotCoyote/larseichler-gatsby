@@ -1,10 +1,13 @@
 import React from 'react';
-
+import { Helmet } from 'react-helmet';
 import Header from '../components/organisms/Header';
 
-export default function DefaultLayout({ children }) {
+export default function DefaultLayout({ children, title }) {
   return (
-    <div className={'bg-gray-200 text-gray-900 p-24 h-full'}>
+    <div className={'bg-gray-200 text-gray-900 p-24 min-h-full'}>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
       <Header siteTitle={'Home Page'} />
 
       <main>{children}</main>
