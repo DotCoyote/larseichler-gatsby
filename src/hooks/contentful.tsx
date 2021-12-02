@@ -4,10 +4,12 @@ import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 
 export default function useContentful() {
   const Bold = ({ children }) => <span className="font-bold">{children}</span>;
+  const Italic = ({ children }) => <span className="italic">{children}</span>;
   const Text = ({ children }) => <p className="align-center">{children}</p>;
   const options = {
     renderMark: {
       [MARKS.BOLD]: text => <Bold>{text}</Bold>,
+      [MARKS.ITALIC]: text => <Italic>{text}</Italic>,
     },
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
