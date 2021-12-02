@@ -36,11 +36,21 @@ module.exports = {
       },
       __key: 'images',
     },
-
+    'gatsby-plugin-sass',
     // Images
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`, // Needed for dynamic images
+
+    {
+      resolve: `gatsby-plugin-svg-sprite-loader`,
+      options: {
+        /* External SVG Sprite loader options */
+        pluginOptions: {
+          /* External SVG Sprite plugin options */
+        },
+      },
+    },
 
     // Fonts
     {

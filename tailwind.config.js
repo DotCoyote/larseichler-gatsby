@@ -35,7 +35,16 @@ module.exports = {
     },
     extend: {
       colors: {
+        primary: {
+          DEFAULT: 'rgb(184, 227, 184)',
+        },
+        secondary: {
+          DEFAULT: 'rgb(60, 51, 48)',
+        },
         gray: colors.trueGray,
+      },
+      boxShadow: {
+        brutal: '24px 24px 0 rgb(184, 227, 184)',
       },
     },
   },

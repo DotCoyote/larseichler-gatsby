@@ -1,8 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import Footer from '../components/organisms/Footer';
 import Header from '../components/organisms/Header';
 
-export default function DefaultLayout({ children, title }) {
+export default function DefaultLayout({ children, title, noFooter = false }) {
   return (
     <div className={'bg-gray-900 text-gray-100 min-h-full'}>
       <Helmet>
@@ -11,6 +12,8 @@ export default function DefaultLayout({ children, title }) {
       <Header />
 
       <main>{children}</main>
+
+      {!noFooter && <Footer />}
     </div>
   );
 }

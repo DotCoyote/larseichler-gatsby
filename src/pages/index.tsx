@@ -9,7 +9,6 @@ const IndexPage = ({ data }) => {
   const avatarImage = getImage(
     data.allContentfulHomepage.edges[0].node.avatarImage,
   );
-  console.log(avatarImage);
 
   return (
     <DefaultLayout title={'Home Page'}>
@@ -22,12 +21,14 @@ const IndexPage = ({ data }) => {
             >
               <h1 className="text-8xl max-w-4xl">
                 <span className="text-gray-400">I am</span>{' '}
-                <strong>Lars Eichler</strong>,
+                <strong>Lars Eichler,</strong>
                 <br />
-                <span className="text-indigo-300">Web-Developer & Speaker</span>
+                <span className="text-primary font-serif">
+                  Web-Developer & Speaker
+                </span>
               </h1>
               {avatarImage && (
-                <div className="mb-20 ml-16 w-64 h-64 transform -rotate-45 overflow-hidden">
+                <div className="mb-20 ml-16 w-64 h-64 transform -rotate-45 overflow-hidden shadow-brutal">
                   <GatsbyImage
                     image={avatarImage}
                     alt={
