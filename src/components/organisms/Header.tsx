@@ -11,9 +11,6 @@ const Header = () => {
       >
         <span className="relative z-10">Lars Eichler</span>
       </a>
-      <time dateTime="2021-12-01T00:00:00TZD" className="text-gray-300">
-        December 2021
-      </time>
     </header>
   );
 };
