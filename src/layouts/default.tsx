@@ -10,13 +10,13 @@ export default function DefaultLayout({
   simpleFooter = false,
 }) {
   return (
-    <div className={'bg-gray-900 text-gray-100 min-h-full'}>
+    <div className={'bg-gray-900 text-gray-100 min-h-full flex flex-col'}>
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Header />
 
-      <main>{children}</main>
+      <main className="flex-grow">{children}</main>
 
       {!noFooter && <Footer isSimple={simpleFooter} />}
     </div>
