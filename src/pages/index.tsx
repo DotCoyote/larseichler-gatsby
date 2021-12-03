@@ -17,7 +17,7 @@ const IndexPage = ({ data }) => {
   }, []);
 
   return (
-    <DefaultLayout title={'Home Page'}>
+    <DefaultLayout title={'Lars Eichler'}>
       {data.allContentfulHomepage.edges &&
         data.allContentfulHomepage.edges.map(post => {
           return (
@@ -97,7 +97,7 @@ export const POSTS_QUERY = graphql`
             gatsbyImageData(
               width: 450
               placeholder: BLURRED
-              formats: [AUTO, WEBP, AVIF]
+              formats: [AUTO, JPG, WEBP, AVIF]
             )
           }
         }
