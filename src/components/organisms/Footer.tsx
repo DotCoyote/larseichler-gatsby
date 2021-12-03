@@ -45,16 +45,18 @@ const SocialIcons = () => {
   );
 };
 
-const Footer = () => (
+const Footer = ({ isSimple = false }) => (
   <footer className="text-center mt-20">
-    <div className="pb-32">
-      <div className="text-4xl font-bold">Lars Eichler</div>
-      <div className="mt-8">
-        <a href="mailto:info@larseichler.de">info@larseichler.de</a>
+    {!isSimple && (
+      <div className="pb-32">
+        <div className="text-4xl font-bold">Lars Eichler</div>
+        <div className="mt-8">
+          <a href="mailto:info@larseichler.de">info@larseichler.de</a>
+        </div>
       </div>
-    </div>
+    )}
     <div className="flex flex-row px-6 py-3 text-sm justify-between">
-      <Link to="/imprint">Imprint</Link>
+      <Link to="/legal-notice">Legal Notice</Link>
 
       <SocialIcons />
     </div>

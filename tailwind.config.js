@@ -3,6 +3,7 @@ const colors = require('tailwindcss/colors');
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}'],
+  mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
@@ -45,6 +46,7 @@ module.exports = {
       },
       boxShadow: {
         brutal: '24px 24px 0 rgb(184, 227, 184)',
+        'brutal-wide': '72px 72px 0 rgb(184, 227, 184)',
       },
     },
   },

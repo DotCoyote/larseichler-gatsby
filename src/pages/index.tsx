@@ -6,9 +6,15 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 const IndexPage = ({ data }) => {
   const { displayRichText } = useContentful();
+  const [pageLoaded, setPageLoaded] = React.useState(false);
+
   const avatarImage = getImage(
     data.allContentfulHomepage.edges[0].node.avatarImage,
   );
+
+  React.useEffect(() => {
+    setPageLoaded(true);
+  }, []);
 
   return (
     <DefaultLayout title={'Home Page'}>
@@ -28,7 +34,13 @@ const IndexPage = ({ data }) => {
                 </span>
               </h1>
               {avatarImage && (
-                <div className="mb-20 ml-16 w-64 h-64 transform -rotate-45 overflow-hidden shadow-brutal">
+                <div
+                  className={`mb-20 ml-16 w-64 h-64 transform -rotate-45 overflow-hidden transition-all delay-500 duration-500 ease-in-out ${
+                    pageLoaded
+                      ? 'opacity-100 shadow-brutal-wide translate-x-0'
+                      : 'opacity-0 shadow-brutal translate-x-10'
+                  }`}
+                >
                   <GatsbyImage
                     image={avatarImage}
                     alt={

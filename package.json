@@ -17,6 +17,8 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^15.6.2",
     "@contentful/rich-text-types": "^15.7.0",
+    "@fontsource/outfit": "^4.5.0",
+    "@fontsource/playfair-display": "^4.5.1",
     "@types/tailwindcss": "^2.2.4",
     "autoprefixer": "^10.4.0",
     "gatsby": "^4.2.0",
@@ -28,7 +30,6 @@
     "gatsby-plugin-sharp": "^4.3.0",
     "gatsby-plugin-sitemap": "^5.2.0",
     "gatsby-plugin-svg-sprite-loader": "^0.2.0",
-    "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-source-contentful": "^7.0.0",
     "gatsby-source-filesystem": "^4.3.0",
     "gatsby-transformer-sharp": "^4.3.0",
