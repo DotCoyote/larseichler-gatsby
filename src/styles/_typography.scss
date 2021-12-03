@@ -1,0 +1,36 @@
+a {
+  @apply underline hover:no-underline;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  + * {
+    margin-top: 2em;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold;
+}
+
+// Headlines
+h1 {
+  @apply text-4xl;
+}
+
+h2 {
+  @apply text-xl;
+
+  + * {
+    margin-top: 1em;
+  }
+}

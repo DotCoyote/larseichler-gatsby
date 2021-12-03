@@ -1,209 +1,92 @@
+import { graphql } from 'gatsby';
 import * as React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import DefaultLayout from '../layouts/default';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import useContentful from '../hooks/contentful';
+import DefaultLayout from '../layouts/default';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
-// styles
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-};
-const headingAccentStyles = {
-  color: '#663399',
-};
-const paragraphStyles = {
-  marginBottom: 48,
-};
-const codeStyles = {
-  color: '#8A6534',
-  padding: 4,
-  backgroundColor: '#FFF4DB',
-  fontSize: '1.25rem',
-  borderRadius: 4,
-};
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-};
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-};
+const IndexPage = ({ data }) => {
+  const { displayRichText } = useContentful();
+  const [pageLoaded, setPageLoaded] = React.useState(false);
 
-const linkStyle = {
-  // color: '#8954A8',
-  fontWeight: 'bold',
-  fontSize: 16,
-  verticalAlign: '5%',
-};
+  const avatarImage = getImage(
+    data.allContentfulHomepage.edges[0].node.avatarImage,
+  );
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: 'none',
-  marginBottom: 24,
-};
+  React.useEffect(() => {
+    setPageLoaded(true);
+  }, []);
 
-const descriptionStyle = {
-  color: '#232129',
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-};
-
-const docLink = {
-  text: 'Documentation',
-  url: 'https://www.gatsbyjs.com/docs/',
-  color: '#8954A8',
+  return (
+    <DefaultLayout title={'Home Page'}>
+      {data.allContentfulHomepage.edges &&
+        data.allContentfulHomepage.edges.map(post => {
+          return (
+            <article
+              key={post.node.id}
+              className="px-8 flex flex-row min-h-screen items-end pb-12"
+            >
+              <h1 className="text-8xl max-w-4xl">
+                <span className="text-gray-400">I am</span>{' '}
+                <strong>Lars Eichler,</strong>
+                <br />
+                <span className="text-primary font-serif">
+                  Web-Developer & Speaker
+                </span>
+              </h1>
+              {avatarImage && (
+                <div
+                  className={`mb-20 ml-16 w-64 h-64 transform -rotate-45 overflow-hidden transition-all delay-500 duration-500 ease-in-out ${
+                    pageLoaded
+                      ? 'opacity-100 shadow-brutal-wide translate-x-0'
+                      : 'opacity-0 shadow-brutal translate-x-10'
+                  }`}
+                >
+                  <GatsbyImage
+                    image={avatarImage}
+                    alt={
+                      data.allContentfulHomepage.edges[0].node.avatarImage.title
+                    }
+                    className="transform rotate-45 w-96 h-96 -m-16"
+                  />
+                </div>
+              )}
+            </article>
+          );
+        })}
+    </DefaultLayout>
+  );
 };
 
-const badgeStyle = {
-  color: '#fff',
-  backgroundColor: '#088413',
-  border: '1px solid #088413',
-  fontSize: 11,
-  fontWeight: 'bold',
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: '4px 6px',
-  display: 'inline-block',
-  position: 'relative',
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-};
-
-// data
-const links = [
-  {
-    text: 'Tutorial',
-    url: 'https://www.gatsbyjs.com/docs/tutorial/',
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: '#E95800',
-  },
-  {
-    text: 'How to Guides',
-    url: 'https://www.gatsbyjs.com/docs/how-to/',
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: '#1099A8',
-  },
-  {
-    text: 'Reference Guides',
-    url: 'https://www.gatsbyjs.com/docs/reference/',
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: '#BC027F',
-  },
-
-  {
-    text: 'Conceptual Guides',
-    url: 'https://www.gatsbyjs.com/docs/conceptual/',
-    description:
-      'Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.',
-    color: '#0D96F2',
-  },
-  {
-    text: 'Plugin Library',
-    url: 'https://www.gatsbyjs.com/plugins',
-    description:
-      'Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.',
-    color: '#8EB814',
-  },
-  {
-    text: 'Build and Host',
-    url: 'https://www.gatsbyjs.com/cloud',
-    badge: true,
-    description:
-      'Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!',
-    color: '#663399',
-  },
-];
-
-const IndexPage = () => {
-  const linkData = useStaticQuery(graphql`
-    query Links {
-      allContentfulEntry {
-        edges {
-          node {
-            id
-            node_locale
-            ... on ContentfulLink {
-              id
-              text
+export const POSTS_QUERY = graphql`
+  query Post {
+    allContentfulHomepage {
+      edges {
+        node {
+          id
+          avatarImage {
+            file {
+              fileName
+              contentType
               url
-              description {
-                raw
+              details {
+                size
+                image {
+                  height
+                  width
+                }
               }
-              color
             }
+            title
+            gatsbyImageData(
+              width: 450
+              placeholder: BLURRED
+              formats: [AUTO, WEBP, AVIF]
+            )
           }
         }
       }
     }
-  `);
+  }
+`;
 
-  const { displayRichText } = useContentful();
-
-  return (
-    <DefaultLayout title={'Home Page'}>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! </span>
-        <span role="img" aria-label="Party popper emojis">
-          🎉🎉🎉
-        </span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time.{' '}
-        <span role="img" aria-label="Sunglasses smiley emoji">
-          😎
-        </span>
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
-        </li>
-        {linkData.allContentfulEntry.edges &&
-          linkData.allContentfulEntry.edges.map(link => {
-            return (
-              <li
-                key={link.node.id}
-                style={{ ...listItemStyles, color: link.node.color }}
-              >
-                <span>
-                  <a
-                    style={linkStyle}
-                    href={`${link.node.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-                  >
-                    {link.node.text}
-                  </a>
-                  {link.node.badge && (
-                    <span style={badgeStyle} aria-label="New Badge">
-                      NEW!
-                    </span>
-                  )}
-                  <div style={descriptionStyle}>
-                    {displayRichText(link.node.description.raw)}
-                  </div>
-                </span>
-              </li>
-            );
-          })}
-      </ul>
-    </DefaultLayout>
-  );
-};
 export default IndexPage;
